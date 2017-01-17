@@ -1,7 +1,7 @@
 package kr.ac.yonsei.fyea.web;
 
-import kr.ac.yonsei.fyea.security.model.User;
 import kr.ac.yonsei.fyea.security.UserRepository;
+import kr.ac.yonsei.fyea.security.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;

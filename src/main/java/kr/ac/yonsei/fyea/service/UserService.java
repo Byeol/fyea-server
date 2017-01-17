@@ -1,7 +1,7 @@
 package kr.ac.yonsei.fyea.service;
 
-import kr.ac.yonsei.fyea.security.model.User;
 import kr.ac.yonsei.fyea.security.UserRepository;
+import kr.ac.yonsei.fyea.security.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
