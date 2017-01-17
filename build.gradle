@@ -1,25 +1,16 @@
-buildscript {
-	ext {
-		springBootVersion = '1.4.3.RELEASE'
-	}
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+plugins {
+	id "org.springframework.boot" version "1.4.3.RELEASE"
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
 
 jar {
 	baseName = 'fyea'
 	version = '0.0.1-SNAPSHOT'
 }
-
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
@@ -27,11 +18,17 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
-	compile('org.springframework.boot:spring-boot-starter-security')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	runtime('org.springframework.boot:spring-boot-devtools')
-	compileOnly('org.projectlombok:lombok')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile 'org.springframework.boot:spring-boot-starter-data-rest'
+	compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-security'
+	compile 'org.apache.poi:poi:3.15'
+	compile 'org.apache.poi:poi-ooxml:3.15'
+	compile 'org.apache.commons:commons-math3:3.6.1'
+	compile 'org.apache.commons:commons-csv:1.4'
+	compile 'com.google.guava:guava:20.0'
+	runtime 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.projectlombok:lombok'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
