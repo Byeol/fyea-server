@@ -37,13 +37,13 @@ public class StatsService {
     }
 
     public List<Student> getStudents(StatsQueryModel queryModel) {
-        String idStartsWith = queryModel.getIdStartsWith();
+        List<String> idStartsWith = queryModel.getIdStartsWith();
 
-        if (idStartsWith == null || Objects.equals(idStartsWith, "")) {
+        if (idStartsWith.isEmpty()) {
             return studentRepository.findAll();
         }
 
-        return Arrays.stream(idStartsWith.split(","))
+        return idStartsWith.stream()
                 .map(studentRepository::findByIdStartsWith)
                 .flatMap(List::stream)
                 .distinct()

@@ -14,5 +14,5 @@ public class StatsQueryModel {
     @NotEmpty
     private List<String> surveys;
 
-    private String idStartsWith;
+    private List<String> idStartsWith;
 }
