@@ -39,7 +39,7 @@ public class StatsService {
     public List<Student> getStudents(StatsQueryModel queryModel) {
         List<String> idStartsWith = queryModel.getIdStartsWith();
 
-        if (idStartsWith.isEmpty()) {
+        if (idStartsWith == null || idStartsWith.isEmpty()) {
             return studentRepository.findAll();
         }
 
