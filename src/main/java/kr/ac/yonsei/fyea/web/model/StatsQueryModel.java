@@ -15,4 +15,6 @@ public class StatsQueryModel {
     private List<String> surveys;
 
     private List<String> idStartsWith;
+
+    private Boolean frequency;
 }

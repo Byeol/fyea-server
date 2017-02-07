@@ -28,7 +28,7 @@ public class StatsService {
 
         AnswerMap conditionAnswerMap = answerMapService.findOrCreate(columnName);
 
-        if (keys.size() == 1) {
+        if (Objects.equals(queryModel.getFrequency(), true) && keys.size() == 1) {
             AnswerMap surveyAnswerMap = answerMapService.findOrCreate(keys.get(0));
             return new StatsQueryData(students, conditionAnswerMap, surveyAnswerMap);
         }
