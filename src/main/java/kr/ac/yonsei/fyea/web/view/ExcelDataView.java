@@ -1,10 +1,7 @@
 package kr.ac.yonsei.fyea.web.view;
 
 import com.google.common.primitives.Doubles;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
@@ -25,6 +22,8 @@ public class ExcelDataView extends AbstractXlsxView {
     }
 
     private static void updateSheet(Sheet sheet, List<List<String>> rows) {
+        CellStyle numericStyle = getCellStyle(sheet, "0.00");
+
         for (int rownum = 0; rownum < rows.size(); rownum++) {
             Row row = sheet.createRow(rownum);
             List<String> cells = rows.get(rownum);
@@ -36,7 +35,7 @@ public class ExcelDataView extends AbstractXlsxView {
 
                 Double numericValue = Doubles.tryParse(value);
                 if (numericValue != null) {
-                    cell.setCellStyle(getCellStyle(sheet, "0.00"));
+                    cell.setCellStyle(numericStyle);
                     cell.setCellValue(numericValue);
                 }
             }
