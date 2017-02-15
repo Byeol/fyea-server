@@ -153,14 +153,18 @@ public class ExcelStatsUtils {
             cell.setCellStyle(getCellStyle(sheet, "0.00"));
             nextCell.setCellStyle(getCellStyle(sheet, "0.00"));
 
-            double fStatistic = TestUtils.oneWayAnovaFValue(getValues(statisticsMap));
-            double pValue = TestUtils.oneWayAnovaPValue(getValues(statisticsMap));
+            try {
+                double fStatistic = TestUtils.oneWayAnovaFValue(getValues(statisticsMap));
+                double pValue = TestUtils.oneWayAnovaPValue(getValues(statisticsMap));
 
-            numberRow.createCell(totalColumn+2).setCellValue(F_VALUE+"/"+P_VALUE);
-            Cell fStatCell = row.createCell(totalColumn+2);
-            Cell pValueCell = nextRow.createCell(totalColumn+2);
-            fStatCell.setCellValue(fStatistic);
-            pValueCell.setCellValue(pValue);
+                numberRow.createCell(totalColumn + 2).setCellValue(F_VALUE + "/" + P_VALUE);
+                Cell fStatCell = row.createCell(totalColumn + 2);
+                Cell pValueCell = nextRow.createCell(totalColumn + 2);
+                fStatCell.setCellValue(fStatistic);
+                pValueCell.setCellValue(pValue);
+            } catch (Exception e) {
+                
+            }
 
             currentRowNum += 2;
         }
