@@ -26,11 +26,15 @@ public class AnswerMap {
     }
 
     public List<String> getAnswers() {
-        if (answers.size() == 0) {
+        if (!hasAnswer()) {
             return codeMap.getRecords().keySet().stream().sorted().collect(Collectors.toList());
         }
 
         return answers.stream().sorted().collect(Collectors.toList());
+    }
+
+    public boolean hasAnswer() {
+        return !answers.isEmpty();
     }
 
     private final RecordMap codeMap = new RecordMap();
