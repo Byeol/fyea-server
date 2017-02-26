@@ -22,7 +22,6 @@ dependencies {
 	compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	compile 'org.springframework.boot:spring-boot-starter-web'
 	compile 'org.springframework.boot:spring-boot-starter-security'
-	compile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 	compile 'org.apache.poi:poi:3.15'
 	compile 'org.apache.poi:poi-ooxml:3.15'
 	compile 'org.apache.commons:commons-math3:3.6.1'

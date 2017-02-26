@@ -2,8 +2,3 @@ spring:
   data:
     mongodb:
       database: fyea
-  mongodb:
-    embedded:
-      version: 3.0.14
-      storage:
-        databaseDir: db
