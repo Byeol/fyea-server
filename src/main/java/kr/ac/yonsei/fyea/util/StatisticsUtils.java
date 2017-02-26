@@ -18,6 +18,8 @@ import java.util.stream.Stream;
 @UtilityClass
 public class StatisticsUtils {
 
+    public static final String TOTAL = "전체";
+
     public static double chiSquareTest(Map<String, DescriptiveStatistics> statisticsMap, Map<String, Frequency> frequencyMap, Collection<String> conditions, Collection<String> answers) {
         Long totalN = statisticsMap.values().stream().map(DescriptiveStatistics::getN).mapToLong(Long::longValue).sum();
         Frequency aggregatedFrequency = getAggregatedFrequency(frequencyMap);
@@ -104,7 +106,15 @@ public class StatisticsUtils {
             frequencyMap.put(answer, frequency);
         });
 
+        frequencyMap.put(TOTAL, getTotalFrequency(students, surveyAnswerMap));
         return frequencyMap;
+    }
+
+    public static Frequency getTotalFrequency(Collection<Student> students, AnswerMap surveyAnswerMap) {
+        Stream<Student> stream = students.stream();
+        Frequency frequency = new Frequency();
+        mapRecords(stream, surveyAnswerMap).filter(Objects::nonNull).forEach(frequency::addValue);
+        return frequency;
     }
 
     public static Map<String, DescriptiveStatistics> getStatistics(Collection<Student> students, AnswerMap conditionAnswerMap, AnswerMap surveyAnswerMap) {
@@ -124,7 +134,20 @@ public class StatisticsUtils {
             statisticsMap.put(answer, statistics);
         });
 
+        statisticsMap.put(TOTAL, getTotalStatistics(students, surveyAnswerMap));
         return statisticsMap;
+    }
+
+    public static DescriptiveStatistics getTotalStatistics(Collection<Student> students, AnswerMap surveyAnswerMap) {
+        Stream<Student> stream = students.stream();
+
+        List<String> results = mapRecords(stream, surveyAnswerMap)
+                .filter(Objects::nonNull)
+                .filter(x -> !Objects.equals(x, ""))
+                .collect(Collectors.toList());
+
+        double[] array = results.stream().mapToDouble(Double::parseDouble).toArray();
+        return new DescriptiveStatistics(array);
     }
 
     public static Map<String, Long> getN(Collection<Student> students, AnswerMap conditionAnswerMap, AnswerMap surveyAnswerMap) {

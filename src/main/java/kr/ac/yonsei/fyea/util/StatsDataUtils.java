@@ -71,6 +71,8 @@ public class StatsDataUtils {
         Map<String, List<Long>> map = new HashMap<>();
         Map<String, Frequency> frequencyMap = StatisticsUtils.getFrequencyMap(students, conditionAnswerMap, surveyAnswerMap);
 
+        conditionAnswerMap.addAnswer("전체");
+
         surveyAnswerMap.getAnswers().forEach(surveyAnswer -> {
             List<Long> frequencyList = new ArrayList<>();
             conditionAnswerMap.getAnswers().forEach(conditionAnswer ->
