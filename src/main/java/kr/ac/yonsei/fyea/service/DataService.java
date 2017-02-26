@@ -122,7 +122,7 @@ public class DataService {
     }
 
     private void updateAnswerMap(Map<String, String> record, BidiMap<String, String> columnMap) {
-        columnMap.entrySet().forEach(entry -> Optional.ofNullable(record.get(entry.getKey())).ifPresent(value -> {
+        columnMap.entrySet().forEach(entry -> Optional.ofNullable(record.get(entry.getKey())).filter(value -> !Objects.equals(value, "")).ifPresent(value -> {
             String key = entry.getValue();
             answerMapService.save(answerMapService.findOrCreate(key).addAnswer(value));
         }));

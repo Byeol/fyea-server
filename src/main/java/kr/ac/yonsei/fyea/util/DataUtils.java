@@ -101,7 +101,7 @@ public class DataUtils {
     public static void updateStudent(Student student, Map<String, String> record, BidiMap<String, String> columnMap) {
         RecordMap counselingRecord = new RecordMap();
 
-        columnMap.entrySet().forEach(entry -> Optional.ofNullable(record.get(entry.getKey())).ifPresent(value -> {
+        columnMap.entrySet().forEach(entry -> Optional.ofNullable(record.get(entry.getKey())).filter(value -> !Objects.equals(value, "")).ifPresent(value -> {
             String key = entry.getValue();
 
             RecordMap recordMap;
