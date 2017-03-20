@@ -10,7 +10,6 @@ import kr.ac.yonsei.fyea.web.model.DataQueryModel;
 import kr.ac.yonsei.fyea.web.view.ExcelDataView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,15 +50,16 @@ public class DataController {
 
     @PostMapping("/data/import")
     public ResponseEntity<?> importData(@RequestBody DataQueryModel queryModel) {
-        Workbook workbook = dataStorageService.readFile(queryModel.getDataFile(), queryModel.getPassword());
-        Workbook codeMap = dataStorageService.readFile(queryModel.getCodeMapFile());
-        dataService.loadData(workbook, codeMap);
-
+        loadData(queryModel.getDataFile(), queryModel.getPassword(), queryModel.getCodeMapFile());
         return ResponseEntity.ok(null);
     }
 
     @GetMapping("/data/export")
     public ModelAndView exportData() {
         return new ModelAndView(excelDataView, "data", studentService.getAllStudent());
+    }
+
+    private void loadData(String dataFile, String password, String codeMapFile) {
+        dataService.loadData(dataStorageService.readFile(dataFile, password), dataStorageService.readFile(codeMapFile));
     }
 }

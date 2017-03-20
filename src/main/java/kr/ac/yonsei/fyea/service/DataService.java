@@ -10,7 +10,6 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,10 +31,8 @@ public class DataService {
     private final StudentService studentService;
 
     @Transactional
-    public void loadCodeMap(Workbook workbook) {
-        logger.info("Load CodeMap from " + workbook);
-
-        Iterable<CSVRecord> records = loadWorkbook(workbook);
+    public void loadCodeMap(Iterable<CSVRecord> records) {
+        logger.info("Load CodeMap from file");
         CodeMap codeMap = codeMapService.get();
 
         records.forEach(record -> {
@@ -45,15 +42,13 @@ public class DataService {
         });
 
         codeMapService.save(codeMap);
-
-        logger.info("CodeMap loaded from " + workbook);
+        
+        logger.info("CodeMap loaded from file");
     }
 
     @Transactional
-    public void loadData(Workbook workbook, Workbook codeMap) {
-        logger.info("Load data from " + workbook);
-
-        Iterable<CSVRecord> records = loadWorkbook(workbook);
+    public void loadData(Iterable<CSVRecord> records, Iterable<CSVRecord> codeMap) {
+        logger.info("Load data from file");
         BidiMap<String, String> columnMap = new DualHashBidiMap<>(loadColumnMap(codeMap));
 
         records.forEach(record -> {
@@ -69,7 +64,7 @@ public class DataService {
             studentService.save(student);
         });
 
-        logger.info("Data loaded from " + workbook);
+        logger.info("Data loaded from file");
     }
 
     private static void updateAdmissionYear(Map<String, String> recordMap, BidiMap<String, String> columnMap) {

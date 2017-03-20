@@ -2,14 +2,16 @@ package kr.ac.yonsei.fyea.service;
 
 import com.google.common.io.Files;
 import kr.ac.yonsei.fyea.storage.FileSystemStorageService;
-import kr.ac.yonsei.fyea.util.WorkbookUtils;
+import kr.ac.yonsei.fyea.util.DataStorageUtils;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+
+import static kr.ac.yonsei.fyea.util.DataStorageUtils.readAsCSV;
 
 @RequiredArgsConstructor
 @Service
@@ -26,34 +28,21 @@ public class DataStorageService {
                 .forEach(dataService::loadCodeMap);
     }
 
-    public Workbook readFile(String filename) {
+    public Iterable<CSVRecord> readFile(String filename) {
         return readFile(filename, null);
     }
 
-    public Workbook readFile(String filename, String password) {
+    public Iterable<CSVRecord> readFile(String filename, String password) {
         String fileExt = Files.getFileExtension(filename);
 
         try {
-            switch (fileExt) {
-                case "xlsx":
-                    return WorkbookUtils.readFile(loadFile(filename), password);
-
-                case "xls":
-                    return WorkbookUtils.readFileHSSF(loadFile(filename), password);
-
-                default:
-                    throw new RuntimeException("Not supported file!");
-            }
+            return readAsCSV(DataStorageUtils.readFile(loadFile(filename), fileExt, password));
         } catch (IOException e) {
-            return null;
+            throw new RuntimeException("Could not read file");
         }
     }
 
-    private InputStream loadFile(String filename) {
-        try {
-            return storageService.loadAsResource(filename).getInputStream();
-        } catch (IOException e) {
-            return null;
-        }
+    private InputStream loadFile(String filename) throws IOException {
+        return storageService.loadAsResource(filename).getInputStream();
     }
 }

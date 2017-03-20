@@ -6,13 +6,10 @@ import kr.ac.yonsei.fyea.domain.RecordMap;
 import kr.ac.yonsei.fyea.domain.Student;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.collections4.BidiMap;
-import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.IOException;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,19 +34,12 @@ public class DataUtils {
         return DEFAULT_TYPE;
     }
 
-    public static Iterable<CSVRecord> loadWorkbook(Workbook workbook) {
+    public static StringReader loadWorkbook(Workbook workbook) {
         Sheet sheet = workbook.getSheetAt(workbook.getActiveSheetIndex());
-
-        Reader in = new StringReader(convert(sheet));
-        try {
-            return CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
-        } catch (IOException e) {
-            return null;
-        }
+        return new StringReader(convert(sheet));
     }
 
-    public static Map<String, String> loadColumnMap(Workbook workbook) {
-        Iterable<CSVRecord> records = loadWorkbook(workbook);
+    public static Map<String, String> loadColumnMap(Iterable<CSVRecord> records) {
         Map<String, String> columnMap = new HashMap<>();
         records.forEach(record -> columnMap.put(record.get(COLUMN), record.get(TYPE)));
         return columnMap;
