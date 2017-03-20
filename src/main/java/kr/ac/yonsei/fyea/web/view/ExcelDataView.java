@@ -22,8 +22,6 @@ public class ExcelDataView extends AbstractXlsxView {
     }
 
     private static void updateSheet(Sheet sheet, List<List<String>> rows) {
-        CellStyle numericStyle = getCellStyle(sheet, "0.00");
-
         for (int rownum = 0; rownum < rows.size(); rownum++) {
             Row row = sheet.createRow(rownum);
             List<String> cells = rows.get(rownum);
@@ -32,12 +30,6 @@ public class ExcelDataView extends AbstractXlsxView {
                 Cell cell = row.createCell(column);
                 String value = cells.get(column);
                 cell.setCellValue(value);
-
-                Double numericValue = Doubles.tryParse(value);
-                if (numericValue != null) {
-                    cell.setCellStyle(numericStyle);
-                    cell.setCellValue(numericValue);
-                }
             }
         }
     }
