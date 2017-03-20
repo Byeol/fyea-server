@@ -26,4 +26,5 @@ public class ColumnTypes {
     public static final String GRADE = "GRADE";
 
     public static final String COUNSELING_COUNT = "COUNSELING_COUNT";
+    public static final String COUNSELING_TOPIC = "COUNSELING_TOPIC";
 }

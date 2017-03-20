@@ -74,6 +74,12 @@ public class StatisticsUtils {
                     return stream.map(student -> student.getCounselingInfo().size()).map(Object::toString);
                 }
 
+                if (key.equals(ColumnTypes.COUNSELING_TOPIC)) {
+                    return stream.flatMap(student -> student.getCounselingInfo().stream()
+                            .flatMap(counselingInfo -> counselingInfo.getRecords().entrySet().stream()
+                                    .filter(record -> record.getKey().startsWith(key)).map(Map.Entry::getValue)));
+                }
+
                 return stream.flatMap(student -> student.getCounselingInfo().stream().map(counselingInfo -> counselingInfo.getRecords().get(key)));
 
             case GRADE:
