@@ -57,6 +57,7 @@ public class DataService {
             updateAdmission(recordMap, columnMap);
             updateGrade(recordMap, columnMap);
             updateMapping(recordMap, columnMap);
+            updateMapping(recordMap, columnMap);
 
             Student student = findStudent(recordMap, columnMap);
             updateStudent(student, recordMap, columnMap);
