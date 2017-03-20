@@ -94,17 +94,11 @@ public class ExcelStatsUtils {
     }
 
     public static void updateSheet(Sheet sheet, List<Student> students, AnswerMap conditionAnswerMap, List<String> keys, CodeMap codeMap) {
+        Map<String, Long> countMap = getN(students, conditionAnswerMap, new AnswerMap(keys.get(0)));
         List<String> answers = conditionAnswerMap.getAnswers();
 
-        Row columnRow = sheet.createRow(0);
-        for (int i = 0; i < answers.size(); i++) {
-            Cell cell = columnRow.createCell((i*2)+1);
-            cell.setCellValue(answers.get(i) + " (N=" + StatisticsUtils.getStatistics(students, conditionAnswerMap, new AnswerMap(keys.get(0))).get(answers.get(i)).getN()+ ")");
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, (i*2)+1, (i*2)+2));
-        }
-
         Integer totalColumn = answers.size()*2+1;
-        columnRow.createCell(totalColumn).setCellValue(TOTAL);
+        updateTotalRow(sheet, countMap, answers);
 
         Row numberRow = sheet.createRow(1);
         Integer currentRowNum = 2;
@@ -189,15 +183,8 @@ public class ExcelStatsUtils {
 
         List<String> answers = conditionAnswerMap.getAnswers();
 
-        Row columnRow = sheet.createRow(0);
-        for (int i = 0; i < answers.size(); i++) {
-            Cell cell = columnRow.createCell((i*2)+1);
-            cell.setCellValue(MessageFormat.format("{0} (N={1})", answers.get(i), countMap.get(answers.get(i))));
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, (i*2)+1, (i*2)+2));
-        }
-
         Integer totalColumn = answers.size()*2+1;
-        columnRow.createCell(totalColumn).setCellValue(MessageFormat.format("{0} (N={1})", TOTAL, totalN));
+        updateTotalRow(sheet, countMap, answers);
 
         Row numberRow = sheet.createRow(1);
 
@@ -279,5 +266,19 @@ public class ExcelStatsUtils {
             sheet.addMergedRegion(new CellRangeAddress(2, (surveyAnswerMap.getAnswers().size()*2)-1, totalColumn+2, totalColumn+2));
             chiSquareCell.setCellValue(chiSquareValue);
         }
+    }
+
+    public static void updateTotalRow(Sheet sheet, Map<String, Long> countMap, List<String> answers) {
+        Long totalN = countMap.values().stream().mapToLong(Long::longValue).sum();
+
+        Row columnRow = sheet.createRow(0);
+        for (int i = 0; i < answers.size(); i++) {
+            Cell cell = columnRow.createCell((i*2)+1);
+            cell.setCellValue(MessageFormat.format("{0} (N={1})", answers.get(i), countMap.get(answers.get(i))));
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, (i*2)+1, (i*2)+2));
+        }
+
+        Integer totalColumn = answers.size()*2+1;
+        columnRow.createCell(totalColumn).setCellValue(MessageFormat.format("{0} (N={1})", TOTAL, totalN));
     }
 }
