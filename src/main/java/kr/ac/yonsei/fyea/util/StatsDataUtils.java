@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static kr.ac.yonsei.fyea.util.StatisticsUtils.TOTAL;
+
 @UtilityClass
 public class StatsDataUtils {
 
@@ -71,7 +73,7 @@ public class StatsDataUtils {
         Map<String, List<Long>> map = new HashMap<>();
         Map<String, Frequency> frequencyMap = StatisticsUtils.getFrequencyMap(students, conditionAnswerMap, surveyAnswerMap);
 
-        conditionAnswerMap.addAnswer("전체");
+        conditionAnswerMap.addAnswer(TOTAL);
 
         surveyAnswerMap.getAnswers().forEach(surveyAnswer -> {
             List<Long> frequencyList = new ArrayList<>();

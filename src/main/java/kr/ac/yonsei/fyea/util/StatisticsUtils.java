@@ -106,15 +106,8 @@ public class StatisticsUtils {
             frequencyMap.put(answer, frequency);
         });
 
-        frequencyMap.put(TOTAL, getTotalFrequency(students, surveyAnswerMap));
+        frequencyMap.put(TOTAL, getAggregatedFrequency(frequencyMap));
         return frequencyMap;
-    }
-
-    public static Frequency getTotalFrequency(Collection<Student> students, AnswerMap surveyAnswerMap) {
-        Stream<Student> stream = students.stream();
-        Frequency frequency = new Frequency();
-        mapRecords(stream, surveyAnswerMap).filter(Objects::nonNull).forEach(frequency::addValue);
-        return frequency;
     }
 
     public static Map<String, DescriptiveStatistics> getStatistics(Collection<Student> students, AnswerMap conditionAnswerMap, AnswerMap surveyAnswerMap) {
@@ -177,7 +170,7 @@ public class StatisticsUtils {
     public static Frequency getAggregatedFrequency(Map<String, Frequency> frequencyMap) {
         Frequency frequency = new Frequency();
         frequency.merge(frequencyMap.values());
-        return frequency;
+        return frequencyMap.getOrDefault(TOTAL, frequency);
     }
 
     public static StatisticalSummaryValues getAggregatedStats(Map<String, DescriptiveStatistics> statisticsMap) {
